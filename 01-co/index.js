@@ -1,5 +1,6 @@
-
 var fs = require('fs');
+var koa = require('koa');
+var app = koa();
 
 /**
  * Create a yieldable version of `fs.stat()`:
@@ -12,7 +13,9 @@ var fs = require('fs');
  */
 
 exports.stat = function (filename) {
-
+  app.use(function *() {
+    var stats = yield exports.stat(filename);
+  });
 };
 
 /**
@@ -32,5 +35,7 @@ exports.stat = function (filename) {
  */
 
 exports.exists = function (filename) {
-
+  app.use(function* () {
+    var exists = yield exports.exists(filename);
+  });
 };

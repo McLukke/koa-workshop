@@ -9,11 +9,14 @@ var app = module.exports = koa();
  * In node.js, the current file is available as a variable `__filename`.
  */
 
+var stat = require('../01-co/index').stat;
+
 app.use(function* (next) {
   if (this.request.path !== '/stream') return yield* next;
 
-  // this.response.type =
-  // this.response.body =
+  this.response.length = (yield stat(__filename)).size;
+  this.response.type = 'application/javascript';
+  this.response.body = fs.createReadStream(__filename);
 });
 
 /**
@@ -23,5 +26,7 @@ app.use(function* (next) {
 app.use(function* (next) {
   if (this.request.path !== '/json') return yield* next;
 
-  // this.response.body =
+  this.response.body = {
+    message: 'hello world'
+  }
 });

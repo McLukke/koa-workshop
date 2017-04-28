@@ -1,7 +1,7 @@
 
 var koa = require('koa');
 
-var app = module.exports = koa();
+var app = module.exports = new koa();
 
 /**
  * Return "hello world" as a string on every request.
@@ -9,5 +9,5 @@ var app = module.exports = koa();
  */
 
 app.use(function* () {
-
+  this.body = 'hello world';
 });
